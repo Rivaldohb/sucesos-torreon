@@ -97,6 +97,10 @@ tabs = st.tabs(["📋 Registrar suceso", "📈 Análisis", "🗺️ Mapa Interac
 # --------------------------------------------------
 with tabs[0]:
     st.subheader("Registrar un nuevo suceso")
+    # === Configurar modo solo lectura ===
+allow_write = st.secrets.get("ALLOW_WRITE", "true").lower() == "true"
+if not allow_write:
+    st.info("🔒 Esta versión es pública y está en modo de solo lectura. Solo se pueden consultar antecedentes.")
 
     with st.form("form_suceso"):
         col1, col2 = st.columns(2)
@@ -113,9 +117,14 @@ with tabs[0]:
         notas = st.text_area("Notas adicionales (opcional)")
         submit = st.form_submit_button("Guardar suceso")
 
-        if submit:
-            agregar_suceso(str(fecha), tipo, subtipo, lugar, lat, lon, gravedad, impacto, fuente, notas)
-            st.success("✅ Suceso registrado correctamente.")
+        if allow_write:
+    submit = st.form_submit_button("Guardar suceso")
+    if submit:
+        agregar_suceso(str(fecha), tipo, subtipo, lugar, lat, lon, gravedad, impacto, fuente, notas)
+        st.success("✅ Suceso registrado correctamente.")
+else:
+    st.form_submit_button("Guardar suceso", disabled=True)
+
 
 # --------------------------------------------------
 # TAB 2: ANÁLISIS
@@ -193,4 +202,5 @@ with tabs[2]:
                 ).add_to(mapa)
 
         st_data = st_folium(mapa, width=900, height=550)
+
 
