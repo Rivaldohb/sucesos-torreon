@@ -97,6 +97,7 @@ tabs = st.tabs(["📋 Registrar suceso", "📈 Análisis", "🗺️ Mapa Interac
 # --------------------------------------------------
 with tabs[0]:
     st.subheader("Registrar un nuevo suceso")
+    
     # === Configurar modo solo lectura ===
 allow_write = st.secrets.get("ALLOW_WRITE", "true").lower() == "true"
 if not allow_write:
@@ -202,5 +203,6 @@ with tabs[2]:
                 ).add_to(mapa)
 
         st_data = st_folium(mapa, width=900, height=550)
+
 
 
