@@ -109,6 +109,7 @@ if not allow_write:
         tipo = col2.selectbox("Tipo de suceso", ["Inundación", "Apagón", "Sismo", "Pandemia", "Protesta", "Derrumbe", "Otro"])
         subtipo = st.text_input("Título / subtipo breve")
         lugar = st.text_input("Lugar (ej. Tec Laguna, Torreón, colonia...)")
+        
         c1, c2 = st.columns(2)
         lat = c1.number_input("Latitud (ej. 25.538)", value=25.538, format="%.6f")
         lon = c2.number_input("Longitud (ej. -103.448)", value=-103.448, format="%.6f")
@@ -118,11 +119,15 @@ if not allow_write:
         notas = st.text_area("Notas adicionales (opcional)")
         submit = st.form_submit_button("Guardar suceso")
 
+                # --- Botón de guardar ---
         if allow_write:
-    submit = st.form_submit_button("Guardar suceso")
-    if submit:
-        agregar_suceso(str(fecha), tipo, subtipo, lugar, lat, lon, gravedad, impacto, fuente, notas)
-        st.success("✅ Suceso registrado correctamente.")
+            submit = st.form_submit_button("Guardar suceso")
+            if submit:
+                agregar_suceso(str(fecha), tipo, subtipo, lugar, lat, lon, gravedad, impacto, fuente, notas)
+                st.success("✅ Suceso registrado correctamente.")
+        else:
+            st.form_submit_button("Guardar suceso", disabled=True)
+
 else:
     st.form_submit_button("Guardar suceso", disabled=True)
 
@@ -203,6 +208,7 @@ with tabs[2]:
                 ).add_to(mapa)
 
         st_data = st_folium(mapa, width=900, height=550)
+
 
 
 
